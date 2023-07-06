@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>데이터베이스 불러오기</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;700&family=Noto+Sans:wght@300&display=swap');
+
+    * {
+        font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
+    }
+
+    #headBlue {
+        background-color:#0080ff;
+        color: #ffffff;
+        padding: 10px;
+
+    }
+    a {
+        text-decoration: none;
+        color: black;
+      }
+    .ahref {
+        cursor:pointer
+    }
+    .ahref:hover {
+        background-color: #0080ff;
+    }
+    .ahref:hover a {
+        color: white;
+    }
+    .ahref:hover > td {
+        color: white;
+    }
+
+    </style>
+
+    <script>
+<!--        window.onload = function(){-->
+<!--            document.getElementById('btn').onclick = ()=>{-->
+<!--                if ( document.getElementById('showhide').style.display == 'none' )-->
+<!--                    document.getElementById('showhide').style.display = 'block';-->
+<!--                else-->
+<!--                    document.getElementById('showhide').style.display = 'none';-->
+<!--            }-->
+<!--        }-->
+
+     </script>
+
+</head>
+<body>
+    <div>
+        <h5 id="headBlue">데이터베이스 불러오기</h5>
+    </div>
+
+<!--    <button id="btn" class="btn btn-primary">버튼</button>-->
+<!--    <div id="showhide"><h1>보여주기 안보여주기</h1></div>-->
+    <!--    people table-->
+    <div class="container-fluid">
+
+                <h1>people 테이블내용</h1>
+                <table class="table">
+                    <thead>
+                    <th>No.</th>
+                    <th>이름</th>
+                    <th>나이</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${al}"><!--사람 하나씩 불러옴-->
+                        <td th:text="${p.idx}"></td>
+                        <td th:text="${p.name}"></td>
+                        <td th:text="${p.age}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+        <div class="modal fade" id="peopleModal" tabindex="-1" aria-labelledby="peopleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="/people">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="peopleModalLabel">당신은 누구인가?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputName">이름</span>
+                                <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputAge">나이</span>
+                                <input type="text" name="age" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button type="submit" class="btn btn-primary">저장</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--         Button trigger modal :: 모달창 불러오는 버튼-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#peopleModal">
+            입력
+        </button>
+
+    </div>
+
+
+    <!--    product table-->
+    <div class="container-fluid">
+
+                <h1>product 테이블내용</h1>
+                <table class="table">
+                    <thead>
+                    <th>No.</th>
+                    <th>상품명</th>
+                    <th>구매수량</th>
+                    </thead>
+                    <tbody>
+                    <tr class="ahref" th:each="p : ${product}">
+                        <td th:text="${p.idp}"></td>
+                        <td>
+                            <a th:href="@{/product/view(idp=${p.idp})}" th:text="${p.productName}"></a>
+                        </td>
+                        <td th:text="${p.purchasesNum}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+        <!--         모달창            -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="/product/insert">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="productModalLabel">구매한 상품명과 개수는?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputProductName">상품명</span>
+                                <input  name="productName" class="form-control" aria-describedby="inputGroup-sizing-default">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputPurchaseNum">구매수량</span>
+                                <input type="number" name="purchasesNum" class="form-control">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button type="submit" class="btn btn-primary">저장</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--         Button trigger modal :: 모달창 불러오는 버튼-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+            입력
+        </button>
+
+    </div>
+
+    <!--    write table -->
+    <div class="container-fluid mb-3">
+
+        <h1>글목록입니다</h1>
+        <!-- Modal -->
+        <div class="modal fade" id="writeModal" tabindex="-1" aria-labelledby="writeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="/post">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="writeModalLabel">글쓰기</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                            <div class="input-group">
+                                <span class="input-group-text">무슨 생각을 하고 있나요?</span>
+                                <textarea
+                                        name="content"
+                                        class="form-control"
+                                        aria-label="With textarea"></textarea>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn btn-primary">저장</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+<!--            row 로 행시작하고 나서 열(col)지정해준다-->
+            <div class="col">
+                <h3>1 of 3</h3>
+                <table class="table">
+                    <thead>
+                    <th>No.</th>
+                    <th>내용</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${post}">
+                        <td th:text="${p.idx}"></td>
+                        <td th:text="${p.content}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col">
+                <h3>2 of 3</h3>
+            </div>
+            <div class="col">
+                <h3>3 of 3</h3>
+            </div>
+
+        </div>
+
+        <!--         Button trigger modal :: 모달창 불러오는 버튼-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#writeModal">
+            글쓰기
+        </button>
+
+    </div>
+
+</body>
+</html>

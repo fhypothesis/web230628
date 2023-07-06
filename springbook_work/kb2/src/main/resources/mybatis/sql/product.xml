@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+    <select id="select" resultType="com.example.kb2.dto.Product">
+        select idp
+        , product_name as productName
+        , purchases_num as purchasesNum
+        from product
+    </select>
+
+    <insert id="insert" parameterType="com.example.kb2.dto.Product">
+        INSERT INTO product
+        (product_name, purchases_num)
+        VALUES
+        (#{productName}, #{purchasesNum});
+    </insert>
+
+    <select id="select_row"
+            parameterType="com.example.kb2.dto.Product"
+            resultType="com.example.kb2.dto.Product">
+        select idp
+        , product_name as productName
+        , purchases_num as purchasesNum
+        from product
+        where idp=#{idp}
+    </select>
+
+</mapper>

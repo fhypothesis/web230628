@@ -13,7 +13,7 @@ public class BoardRepository {
     public BoardRepository() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb",
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhpark",
                     "root",
                     "1234");
             Statement statement = connection.createStatement();
