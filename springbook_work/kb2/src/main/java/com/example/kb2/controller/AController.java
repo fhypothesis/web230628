@@ -91,11 +91,4 @@ public class AController {
         return "redirect:/"; // 저장하고 root 페이지로 이동하라
     }
 
-    @PostMapping("/people")
-    public String people(String name, int age, HttpServletRequest request) {
-        peopleRepository.doInsert(name, age);
-        return "redirect:/";
-    }
-
-
 }

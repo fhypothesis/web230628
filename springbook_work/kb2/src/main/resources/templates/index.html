@@ -49,6 +49,45 @@
 <!--            }-->
 <!--        }-->
 
+window.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('.row .col');
+        for (var i = 0; i < rows.length; i++) {
+            var tableRows = rows[i].querySelectorAll('tbody tr');
+            if (tableRows.length > 10) {
+                var newCol = document.createElement('div');
+                newCol.className = 'col';
+                newCol.innerHTML = '<h3>' + (i + 2) + ' of 3</h3><table class="table"><thead><th>No.</th><th>내용</th></thead><tbody></tbody></table>';
+                document.querySelector('.row').appendChild(newCol);
+                var newTableRows = Array.from(tableRows).slice(10);
+                for (var j = 0; j < newTableRows.length; j++) {
+                    newCol.querySelector('tbody').appendChild(newTableRows[j]);
+                }
+                tableRows = Array.from(tableRows).slice(0, 10);
+            }
+            if (tableRows.length > 10) {
+                var newCol2 = document.createElement('div');
+                newCol2.className = 'col';
+                newCol2.innerHTML = '<h3>' + (i + 2) + ' of 3</h3><table class="table"><thead><th>No.</th><th>내용</th></thead><tbody></tbody></table>';
+                document.querySelector('.row').appendChild(newCol2);
+                var newTableRows2 = Array.from(tableRows).slice(10);
+                for (var k = 0; k < newTableRows2.length; k++) {
+                    newCol2.querySelector('tbody').appendChild(newTableRows2[k]);
+                }
+                tableRows = Array.from(tableRows).slice(0, 10);
+            }
+            if (tableRows.length > 10) {
+                var newCol3 = document.createElement('div');
+                newCol3.className = 'col';
+                newCol3.innerHTML = '<h3>' + (i + 3) + ' of 3</h3><table class="table"><thead><th>No.</th><th>내용</th></thead><tbody></tbody></table>';
+                document.querySelector('.row').appendChild(newCol3);
+                var newTableRows3 = Array.from(tableRows).slice(10);
+                for (var l = 0; l < newTableRows3.length; l++) {
+                    newCol3.querySelector('tbody').appendChild(newTableRows3[l]);
+                }
+            }
+        }
+    });
+
      </script>
 
 </head>
@@ -70,9 +109,11 @@
                     <th>나이</th>
                     </thead>
                     <tbody>
-                    <tr th:each="p : ${al}"><!--사람 하나씩 불러옴-->
+                    <tr class="ahref" th:each="p : ${al}"><!--사람 하나씩 불러옴-->
                         <td th:text="${p.idx}"></td>
-                        <td th:text="${p.name}"></td>
+                        <td>
+                            <a th:href="@{/people/view(idx=${p.idx})}" th:text="${p.name}"></a>
+                        </td>
                         <td th:text="${p.age}"></td>
                     </tr>
                     </tbody>
@@ -217,19 +258,19 @@
                     <th>내용</th>
                     </thead>
                     <tbody>
-                    <tr th:each="p : ${post}">
+                    <tr th:each="p, iterStat : ${post}">
                         <td th:text="${p.idx}"></td>
                         <td th:text="${p.content}"></td>
                     </tr>
                     </tbody>
                 </table>
 
-            </div>
-            <div class="col">
-                <h3>2 of 3</h3>
-            </div>
-            <div class="col">
-                <h3>3 of 3</h3>
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <h3>2 of 3</h3>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <h3>3 of 3</h3>-->
             </div>
 
         </div>

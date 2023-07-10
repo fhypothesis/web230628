@@ -31,7 +31,6 @@ public class ProductRepository {
     }
 
     public Product doSelectRow(Product product) {
-        System.out.println(product);
         return sqlSession.selectOne("product.select_row", product);
     }
 

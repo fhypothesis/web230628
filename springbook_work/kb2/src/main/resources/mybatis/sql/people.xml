@@ -14,4 +14,11 @@
         (#{name}, #{age});
     </insert>
 
+    <select id="select_row"
+            parameterType="com.example.kb2.dto.People"
+            resultType="com.example.kb2.dto.People">
+        select * from people
+        where idx=#{idx}
+    </select>
+
 </mapper>

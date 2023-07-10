@@ -8,10 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductReply {
-    private int idp_reply;
-    private int idp_product;
-    private int ref_idp_reply;
+public class PeopleReply {
+    private int idx_people;
+    private int ref_idx_reply;
     private int ref_level;
     private String content;
     private String path;

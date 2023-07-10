@@ -19,12 +19,10 @@ public class PeopleRepository {
         return sqlSession.selectList("people.select");
     }
 
-    public void doInsert(String name, int age) {
-        sqlSession.insert("people.insert", People
-                .builder()
-                .name(name)
-                .age(age)
-                .build());
+    public void doInsert(People people) { sqlSession.insert("people.insert", people); }
+
+    public People doSelectRow(People people) {
+        return sqlSession.selectOne("people.select_row", people);
     }
 
 }

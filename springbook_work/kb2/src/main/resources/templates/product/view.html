@@ -28,6 +28,9 @@
 
 
 
+
+
+
     </style>
 
     <script>
@@ -42,8 +45,12 @@
                         ref_level: 1,
                         content: $('#content').val(),
                      },
-                     success:function(){
+                     success:function(result){
                         console.log("success");
+                        location.reload();
+<!--                        html 함수는 원래 내용에 덮어쓰기-->
+<!--                        append 원래내용 그대로 두고 추가하기-->
+<!--                        요즘은 리액트로 처리한다-->
                      },
                      error:function(e){
                         console.log("error"+e);
@@ -52,8 +59,6 @@
                 }
             );
         });
-
-
 
     </script>
 
@@ -66,7 +71,7 @@
 </div>
 
 <div class="container-fluid">
-    <h1>품목 상세보기</h1>
+    <h1>한 줄 불러와서 댓글쓰기</h1>
     <table class="table table-striped">
         <thead>
         <th>No.</th>
@@ -83,6 +88,60 @@
     </table>
     <!--         댓글쓰기영역           -->
     <div>
+    <div th:each="productReply:${productReplyList}">
+        <div>
+            <span th:each="num:${#numbers.sequence(1,productReply.ref_level)}">
+            <!--반복[[${num}]]-->
+                <span th:if="${num != productReply.ref_level}" style="margin-right:1rem"></span>
+                <span th:if="${num == productReply.ref_level}">😎🤢</span>
+            </span>
+            <span th:text="${productReply.content}"></span>
+
+            <!--댓글에답글쓰기:: 모달창 불러오는 버튼-->
+            <button type="button" class="btn btn-primary m-1"
+                    data-bs-toggle="modal"
+                    th:attrappend="data-bs-target=${'#replymodal-'+productReply.path}">
+<!--                attrappend로 data-bs-target 속성 추가하기-->
+                답글쓰기
+            </button>
+            <!--답글추가 영역-->
+            <div class="modal fade" th:id="|replymodal-${productReply.path}|"
+                 tabindex="-1" th:attrappend="aria-labelledby=${'replymodal-'+productReply.path+'label'}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" action="/product_reply/insert">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" th:id="|replymodal-${productReply.path}label|">답글쓰기</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="input-group">
+                                    <span class="input-group-text">댓글에 대한 답글을 써주자.</span>
+                                    <input type="hidden" name="ref_level" th:value="${productReply.ref_level}">
+                                    <input type="hidden" name="idp_product" th:value="${productReply.idp_product}">
+                                    <input type="hidden" name="idp_reply" th:value="${productReply.idp_reply}">
+                                    <input type="hidden" name="ref_idp_reply" th:value="${productReply.ref_idp_reply}">
+                                    <textarea
+                                            name="content"
+                                            class="form-control"
+                                            aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                <button type="submit" class="btn btn-primary">저장</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <div>
         <h1 class="modal-title fs-5" id="productModalLabel">댓글쓰기</h1>
     </div>
     <div class="d-flex align-items-center">
@@ -91,12 +150,12 @@
                 <input type="text"
                        name="content"
                        id="content"
-                       class="form-control"/>
+                       class="form-control me-1"/>
             </div>
         </div>
-            <div>
-                <button id="save" type="button" class="btn btn-primary">저장</button>
-            </div>
+        <div>
+            <button id="save" type="button" class="btn btn-primary">저장</button>
+        </div>
     </div>
 
 </div>

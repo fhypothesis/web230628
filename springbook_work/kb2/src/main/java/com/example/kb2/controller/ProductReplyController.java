@@ -28,6 +28,16 @@ public class ProductReplyController {
         return "test";
     }
 
+    @PostMapping("insert")
+//    @ResponseBody
+    public String postInsert(ProductReply productReply) {
+        System.out.println(productReply);
+        productReply.setRef_idp_reply(productReply.getIdp_reply()); //원래 해당하는 댓글
+        productReply.setRef_level(productReply.getRef_level()+1); // 깊이
+        productReplyRepository.doInsert(productReply);
+        return "redirect:/product/view?idp="+productReply.getIdp_product();
+    }
+
 
     @GetMapping("view")
     public String view(Model model, Product product) {
