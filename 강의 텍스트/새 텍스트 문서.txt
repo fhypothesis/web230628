@@ -1,0 +1,7 @@
+
+transition # input 태그 클릭했을때...
+transform  # 각도 조절
+animation  # 화면이 자동으로 변경될때
+
+npm install create-react-app
+npx create-react-app myp1

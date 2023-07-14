@@ -1,0 +1,44 @@
+#docker 컨테이너 생성 및 실행 (이미지 없을시 다운로드)
+docker run --name myflask -d -it -p 
+5000:5000 python:3.11
+
+#docker 컨테이너 생성 및 실행 (이미지 없을시 다운로드)
+#내 폴더에있는 디렉토리 연결해서 OS 만들기
+docker run --name myflask -d -it -p 5000:5000 -v 내컴퓨터디렉토리:상대편컴퓨터디렉토리 python:3.11
+
+#Myflask Os로 넘어가기
+docker exec -it myflask bash
+
+# 리눅스 업데이트 & vi 설치하기
+apt update & apt install vim
+
+# git hub 소스 다운로드
+git clone https://github.com/dron512/webai230628
+
+# 프로스세 확인 python 프로세스 도는지 확인
+ps -ef |grep python
+
+cd /webai230628/python_work/pythonProject/230713
+
+python ex02.py
+
+# flask 모듈 설치
+pip install flask
+pip install scikit-learn
+pip install pandas
+
+명령어
+1. docker run -> python ex02.py 직접실행해야함 
+2. dockerfile 이미지 만들기
+3. docker compose 로 이미지 생성 및 실행
+
+
+
+
+
+
+
+
+
+
+
