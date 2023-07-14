@@ -27,4 +27,9 @@ public class ProductReplyRepository {
         return sqlSession.selectOne("product_reply.select_row", product);
     }
 
+    public void doDelete(ProductReply productReply){
+        sqlSession.delete("product_reply.delete", productReply);
+    }
+
+
 }

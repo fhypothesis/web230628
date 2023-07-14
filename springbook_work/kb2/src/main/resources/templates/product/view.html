@@ -60,6 +60,23 @@
             );
         });
 
+        function doDelete(obj){
+            const idp_reply = $(obj).attr('idp_reply');
+            $.ajax( {
+                url:"/product_reply/delete"
+                , data:{ idp_reply }
+                , type:"post"
+                , async: true
+                , success:function(result) {
+                    console.log(result);
+                    location.reload();
+                    }
+                , error:function(err){
+                    console.log(err);
+                    }
+            } );
+        }
+
     </script>
 
 </head>
@@ -127,6 +144,7 @@
                                             class="form-control"
                                             aria-label="With textarea"></textarea>
                                 </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -136,6 +154,12 @@
                     </div>
                 </div>
             </div>
+
+            <button type="button" class="btn btn-primary"
+                    th:attrappend="idp_reply=${productReply.idp_reply}"
+                    onclick="doDelete(this);">
+                댓글삭제
+            </button>
 
         </div>
     </div>

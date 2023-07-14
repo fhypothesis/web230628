@@ -12,7 +12,7 @@
                 , ref_idp_reply
                 , ref_level
                 , content
-                , CONVERT(idp_reply, CHAR) AS path FROM product_reply
+                , CONVERT(idp_reply, CHAR(255)) AS path FROM product_reply
             WHERE idp_product = #{idp_product}
             AND ref_idp_reply = 0
         UNION ALL
@@ -22,7 +22,7 @@
                 , uc.ref_idp_reply
                 , uc.ref_level
                 , uc.content
-                , concat(CTE.idp_reply,'-',uc.idp_reply) AS path FROM product_reply uc
+                , convert(CONCAT(CTE.path,'-',uc.idp_reply),CHAR(255)) AS path FROM product_reply uc
             INNER JOIN CTE ON uc.ref_idp_reply = CTE.idp_reply
             WHERE uc.idp_product = #{idp_product}
             )
@@ -49,5 +49,10 @@
         from product
         where idp=#{idp}
     </select>
+
+    <delete id="delete" parameterType="com.example.kb2.dto.ProductReply">
+        delete from productReply
+        where idp_reply = #{idp_reply}
+    </delete>
 
 </mapper>

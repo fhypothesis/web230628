@@ -29,7 +29,6 @@ public class ProductReplyController {
     }
 
     @PostMapping("insert")
-//    @ResponseBody
     public String postInsert(ProductReply productReply) {
         System.out.println(productReply);
         productReply.setRef_idp_reply(productReply.getIdp_reply()); //원래 해당하는 댓글
@@ -38,12 +37,18 @@ public class ProductReplyController {
         return "redirect:/product/view?idp="+productReply.getIdp_product();
     }
 
-
     @GetMapping("view")
     public String view(Model model, Product product) {
         Product dbProduct = productRepository.doSelectRow(product);
         model.addAttribute("product", dbProduct);
         return "product/view";
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public String delete(ProductReply productReply) {
+        productReplyRepository.doDelete(productReply);
+        return "문자문자";
     }
 
 }
