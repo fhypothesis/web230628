@@ -17,16 +17,11 @@ public class FreeBoardService {
     @Autowired
     FreeBoardRepository freeBoardRepository;
     public List<FreeBoardDto> list() {
-        // 데이터베이스에 가서 select 해서 내용을 가지고 와서
-        // list에 담는다
-        // 컬렉션과 제네릭 List, Map, Set
-        // Page와 List는 동일하다고 봄
+        // 데이터베이스에 가서 select 해서 내용을 가지고 와서 list에 담는다
         Page<FreeBoard> list = freeBoardRepository.findAll(
                 PageRequest.of(0, 5));
         System.out.println("page = " + list);
-
-        // list에 담긴 FreeBoard를 FreeBoardDto로 변경해서
-        // list에 다시 담는다
+        // list에 담긴 FreeBoard를 FreeBoardDto로 변경해서 list에 다시 담는다
         List<FreeBoardDto> dtolist = new ArrayList<>();
         for(FreeBoard fb :list){
             FreeBoardDto dto = FreeBoardDto.of(fb);

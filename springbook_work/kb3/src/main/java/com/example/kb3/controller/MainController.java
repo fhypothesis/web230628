@@ -20,11 +20,10 @@ public class MainController {
         FreeBoard f1 = new FreeBoard().builder()
                 .name("홍길동")
                 .content("내용")
+                .title("안녕")
                 .build();
 
         freeBoardRepository.save(f1);
-        List<FreeBoard> list = freeBoardRepository.findAll();
-        System.out.println(list);
         return "index";
     }
 }
