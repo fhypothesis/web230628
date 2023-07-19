@@ -16,23 +16,27 @@ public class FreeBoardService {
 
     @Autowired
     FreeBoardRepository freeBoardRepository;
-    public List<FreeBoardDto> list(Pageable pageable) {
+    public Page<FreeBoard> list(String searchText, String SearchText, Pageable pageable) {
 //       위의 내용을 요렇게 적어도 된다--> Pageable pageable = PageRequest.of(0, 5, Sort.by("idx").descending()));
-        Page<FreeBoard> pagelist = freeBoardRepository.findAll(pageable);
-        List<FreeBoardDto> dtolist = new ArrayList<>();
-        for(FreeBoard fb :pagelist){
-            FreeBoardDto dto = FreeBoardDto.of(fb);
-            dtolist.add(dto);
-        }
-
-        System.out.println("dtolist = " + dtolist);
-        return dtolist;
+        Page<FreeBoard> pagelist = freeBoardRepository.findByTitleContainingOrContentContaining(
+                searchText, SearchText, pageable);
+        System.out.println(pagelist.getContent());
+        return pagelist;
     }
 
     public boolean insert(FreeBoardDto dto) {
-        FreeBoard freeBoard = dto.createFreeBoard();
-        freeBoardRepository.save(freeBoard);
+        // 작성일자 없어지는 거 수정
+        FreeBoard freeBoardEntity = freeBoardRepository.findById(dto.getIdx()).orElse(new FreeBoard());
+        freeBoardEntity.setContent(dto.getContent());
+        freeBoardEntity.setName(dto.getName());
+        freeBoardEntity.setTitle(dto.getTitle());
+        freeBoardRepository.save(freeBoardEntity);
         return true;
     }
 
+    public FreeBoardDto getRow(FreeBoardDto freeBoardDto) {
+        FreeBoard freeBoard = freeBoardRepository.findById(freeBoardDto.getIdx())
+                .orElse(new FreeBoard());
+        return FreeBoardDto.of(freeBoard);
+    }
 }

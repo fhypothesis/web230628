@@ -7,44 +7,52 @@
     <title>Cat Board</title>
 </head>
 <th:block layout:fragment="css"></th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script>
+        function doDelete(){
+            const idx = [[${catBoardDto.idx}]];
+            let result = confirm('삭제?');
+            if(result){
+                $.ajax({
+                    url:"http://localhost:8080/CatBoard/Delete",
+                    data:{idx},
+                    type:"delete",
+                    success:function(result){
+                        alert('삭제됨'+result);
+                        console.log(result);
+                        if(result === 'success'){
+                            location.href="/CatBoard";
+                        }
+                    },
+                    error:function(error){
+                        alert('error'+error);
+                    },
+                });
+            }
+        }
+    </script>
+</th:block>
 
 <th:block layout:fragment="content">
     <div class="container">
         <h1>Cat Board 👉 Detail View</h1>
-<!--        thymeleaf
-                $ 모델에 있는 거 가지고 옴
-                @ 경로 지정
-                * 객체 안에 있는 변수 가져올 때
-                # 함수 사용할 때
-                -->
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">No.</th>
-                <th scope="col">제목</th>
-                <th scope="col">내용</th>
-                <th scope="col">작성자</th>
-                <th scope="col">작성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:text="${detailByIdx.idx}">No.</td>
-                <td th:text="${detailByIdx.title}">제목</td>
-                <td th:text="${detailByIdx.content}">내용</td>
-                <td th:text="${detailByIdx.name}">작성자</td>
-                <td>작성일</td>
-            </tr>
-            </tbody>
-        </table>
 
-<!--            <label>제목</label>-->
-<!--                <div th:text="${detailByIdx.title}"></div>-->
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/CatBoard}">목록으로</a>
+        </div>
 
-<!--            <label>내용</label>-->
-<!--            <div th:text="${detailByIdx.content}"></div>-->
-
+        <label class="mb-3">제목</label>
+        <div class="border rounded p-3">
+            <span th:text="${catBoardDto.title}"></span>
+        </div>
+        <label class="my-3">내용</label>
+        <div class="border rounded p-3">
+            <span th:text="${catBoardDto.content}"></span>
+        </div>
+        <div class="d-flex justify-content-end my-3">
+            <a th:href="@{/CatBoard/UpdateForm(idx=${catBoardDto.idx})}" class="btn btn-primary me-1">수정</a>
+            <button type="button" onclick="doDelete();" class="btn btn-primary">삭제</button>
+        </div>
     </div>
 </th:block>
 </html>

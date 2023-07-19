@@ -1,7 +1,9 @@
 package com.example.kb3.survice;
 
 import com.example.kb3.dto.CatBoardDto;
+import com.example.kb3.dto.FreeBoardDto;
 import com.example.kb3.entity.CatBoard;
+import com.example.kb3.entity.FreeBoard;
 import com.example.kb3.repository.CatBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CatBoardService {
@@ -30,13 +31,17 @@ public class CatBoardService {
     }
 
     public boolean insert(CatBoardDto dto) {
-        CatBoard catBoard = dto.createCatBoard();
-        catBoardRepository.save(catBoard);
+        CatBoard catBoardEntity = catBoardRepository.findById(dto.getIdx()).orElse(new CatBoard());
+        catBoardEntity.setContent(dto.getContent());
+        catBoardEntity.setName(dto.getName());
+        catBoardEntity.setTitle(dto.getTitle());
+        catBoardRepository.save(catBoardEntity);
         return true;
     }
 
-    public Optional<CatBoardDto> detailByIdx(int idx) {
-        Optional<CatBoardDto> boardDtoList = catBoardRepository.findById(idx).map(CatBoardDto::of);
-        return boardDtoList;
+    public CatBoardDto getRow(CatBoardDto catBoardDto) {
+        CatBoard catBoard = catBoardRepository.findById(catBoardDto.getIdx())
+                .orElse(new CatBoard());
+        return CatBoardDto.of(catBoard);
     }
 }

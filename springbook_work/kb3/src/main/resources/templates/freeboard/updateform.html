@@ -11,14 +11,19 @@
 
 <th:block layout:fragment="content">
     <div class="container">
-        <h1>Free Board 👉 Wirte Form</h1>
+        <h1>Free Board 👉 Update Form</h1>
 
 <!--        thymeleaf
                 $ 모델에 있는 거 가지고 옴
                 @ 경로 지정
                 * 객체 안에 있는 변수 가져올 때        -->
 
-        <form method="post" th:action="@{/FreeBoard/WirteForm}" th:object="${freeBoardDto}">
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/FreeBoard}">목록으로</a>
+        </div>
+
+        <form method="post" th:action="@{/FreeBoard/UpdateForm}" th:object="${freeBoardDto}">
+            <input type="hidden" th:field="*{idx}">
             <label>제목</label>
             <input type="text" name="title"
                    class="form-control mb-3"

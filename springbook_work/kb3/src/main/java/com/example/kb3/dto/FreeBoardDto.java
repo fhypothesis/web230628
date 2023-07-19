@@ -4,12 +4,14 @@ import com.example.kb3.entity.FreeBoard;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@ToString
 public class FreeBoardDto {
 
     private int idx;

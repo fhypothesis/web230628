@@ -7,27 +7,58 @@
     <title>Free Board</title>
 </head>
 <th:block layout:fragment="css"></th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script>
+        function doDelete(){
+            const idx = [[${freeBoardDto.idx}]];
+            let result = confirm('삭제?');
+            if(result){
+                $.ajax({
+                    url:"http://localhost:8080/FreeBoard/Delete",
+                    data:{idx},
+                    type:"delete",
+                    success:function(result){
+                        alert('삭제됨'+result);
+                        console.log(result);
+                        if(result === 'success'){
+                            location.href="/FreeBoard";
+                        }
+                    },
+                    error:function(error){
+                        alert('error'+error);
+                    },
+                });
+            }
+        }
+    </script>
+</th:block>
 
 <th:block layout:fragment="content">
     <div class="container">
         <h1>Free Board 👉 Detail View</h1>
-<!--        thymeleaf
-                $ 모델에 있는 거 가지고 옴
-                @ 경로 지정
-                * 객체 안에 있는 변수 가져올 때
-                # 함수 사용할 때
-                -->
+        <!--        thymeleaf
+                        $ 모델에 있는 거 가지고 옴
+                        @ 경로 지정
+                        * 객체 안에 있는 변수 가져올 때
+                        # 함수 사용할 때
+                        -->
 
-            <label>제목</label>
-            <div>
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/FreeBoard}">목록으로</a>
+        </div>
 
-            </div>
-            <label>내용</label>
-            <div>
-
-            </div>
-
+        <label class="mb-3">제목</label>
+        <div class="border rounded p-3">
+            <span th:text="${freeBoardDto.title}"></span>
+        </div>
+        <label class="my-3">내용</label>
+        <div class="border rounded p-3">
+            <span th:text="${freeBoardDto.content}"></span>
+        </div>
+        <div class="d-flex justify-content-end my-3">
+            <a th:href="@{/FreeBoard/UpdateForm(idx=${freeBoardDto.idx})}" class="btn btn-primary me-1">수정</a>
+            <button type="button" onclick="doDelete();" class="btn btn-primary">삭제</button>
+        </div>
     </div>
 </th:block>
 </html>

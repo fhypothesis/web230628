@@ -2,6 +2,7 @@ package com.example.kb3.controller;
 
 import com.example.kb3.dto.CatBoardDto;
 import com.example.kb3.dto.FreeBoardDto;
+import com.example.kb3.repository.CatBoardRepository;
 import com.example.kb3.survice.CatBoardService;
 import com.example.kb3.survice.FreeBoardService;
 import jakarta.validation.Valid;
@@ -12,10 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +24,9 @@ public class CatBoardController {
 
     @Autowired
     CatBoardService catBoardService;
+
+    @Autowired
+    CatBoardRepository catBoardRepository;
 
     @GetMapping("")
     public String index(Model model, @PageableDefault(
@@ -58,17 +59,43 @@ public class CatBoardController {
         return "catboard/writeform";
     }
 
-//    @GetMapping("/DetailView")
-//    public String gotoDetailView(@ModelAttribute @Valid CatBoardDto catBoardDto, BindingResult bindingResult){
-//        return "catboard/detailview";
-//    }
-
     @GetMapping("/DetailView")
-    public String DetailView(int idx, Model model){
-        Optional<CatBoardDto> boardDtoList = catBoardService.detailByIdx(idx);
-        model.addAttribute("detailByIdx", boardDtoList.get());
+    public String gotoDetailView(@ModelAttribute @Valid CatBoardDto catBoardDto,
+                                 BindingResult bindingResult,
+                                 Model model){
+        CatBoardDto dto = catBoardService.getRow(catBoardDto);
+        model.addAttribute("catBoardDto", dto);
         return "catboard/detailview";
     }
 
+    @DeleteMapping("/Delete")
+    public @ResponseBody String detailDelete(CatBoardDto catBoardDto){
+        System.out.println(catBoardDto.getIdx());
+        catBoardRepository.deleteById(catBoardDto.getIdx());
+        return "success";
+    }
+
+    @GetMapping("/UpdateForm")
+    public String gotoUpdateForm(@ModelAttribute @Valid CatBoardDto catBoardDto,
+                                 BindingResult bindingResult,
+                                 Model model){
+        CatBoardDto dto = catBoardService.getRow(catBoardDto);
+        model.addAttribute("catBoardDto", dto);
+        return "catboard/updateform";
+    }
+
+    @PostMapping("/UpdateForm")
+    public String UpdateForm(@Valid CatBoardDto dto, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("catBoardDto", dto);
+            return "catboard/updateform";
+        } else {
+            System.out.println(dto);
+            boolean result = catBoardService.insert(dto);
+            if(result)
+                return "redirect:/CatBoard";
+        }
+        return "catboard/updateform";
+    }
 
 }
