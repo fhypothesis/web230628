@@ -1,6 +1,6 @@
 package com.example.kb3.dto;
 
-import com.example.kb3.entity.FreeBoard;
+import com.example.kb3.entity.CatBoard;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class FreeBoardDto {
+public class CatBoardDto {
 
     private int idx;
     private String name;
@@ -24,11 +24,11 @@ public class FreeBoardDto {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
-    public FreeBoard createFreeBoard(){
-        return modelMapper.map(this, FreeBoard.class);
+    public CatBoard createCatBoard(){
+        return modelMapper.map(this, CatBoard.class);
     }
-    public static FreeBoardDto of(FreeBoard freeBoard){
-        return modelMapper.map(freeBoard, FreeBoardDto.class);
+    public static CatBoardDto of(CatBoard catBoard){
+        return modelMapper.map(catBoard, CatBoardDto.class);
     }
 
 }

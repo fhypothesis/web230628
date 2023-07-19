@@ -5,7 +5,7 @@ import com.example.kb3.entity.FreeBoard;
 import com.example.kb3.repository.FreeBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,14 +16,11 @@ public class FreeBoardService {
 
     @Autowired
     FreeBoardRepository freeBoardRepository;
-    public List<FreeBoardDto> list() {
-        // 데이터베이스에 가서 select 해서 내용을 가지고 와서 list에 담는다
-        Page<FreeBoard> list = freeBoardRepository.findAll(
-                PageRequest.of(0, 5));
-        System.out.println("page = " + list);
-        // list에 담긴 FreeBoard를 FreeBoardDto로 변경해서 list에 다시 담는다
+    public List<FreeBoardDto> list(Pageable pageable) {
+//       위의 내용을 요렇게 적어도 된다--> Pageable pageable = PageRequest.of(0, 5, Sort.by("idx").descending()));
+        Page<FreeBoard> pagelist = freeBoardRepository.findAll(pageable);
         List<FreeBoardDto> dtolist = new ArrayList<>();
-        for(FreeBoard fb :list){
+        for(FreeBoard fb :pagelist){
             FreeBoardDto dto = FreeBoardDto.of(fb);
             dtolist.add(dto);
         }
@@ -31,4 +28,11 @@ public class FreeBoardService {
         System.out.println("dtolist = " + dtolist);
         return dtolist;
     }
+
+    public boolean insert(FreeBoardDto dto) {
+        FreeBoard freeBoard = dto.createFreeBoard();
+        freeBoardRepository.save(freeBoard);
+        return true;
+    }
+
 }

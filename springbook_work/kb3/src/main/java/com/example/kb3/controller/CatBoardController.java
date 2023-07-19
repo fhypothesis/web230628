@@ -1,10 +1,11 @@
 package com.example.kb3.controller;
 
+import com.example.kb3.dto.CatBoardDto;
 import com.example.kb3.dto.FreeBoardDto;
+import com.example.kb3.survice.CatBoardService;
 import com.example.kb3.survice.FreeBoardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,15 +17,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.SQLOutput;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/FreeBoard")
-public class FreeBoardController {
+@RequestMapping("/CatBoard")
+public class CatBoardController {
 
     @Autowired
-    FreeBoardService freeBoardService;
+    CatBoardService catBoardService;
 
     @GetMapping("")
     public String index(Model model, @PageableDefault(
@@ -32,34 +33,42 @@ public class FreeBoardController {
             sort = "idx",
             direction = Sort.Direction.DESC,
             page = 0 ) Pageable pageable) {
-        List<FreeBoardDto> list = freeBoardService.list(pageable);
+        List<CatBoardDto> list = catBoardService.list(pageable);
         model.addAttribute("list", list);
-        return "freeboard/index";
+        return "catboard/index";
     }
 
     @GetMapping("/WirteForm")
-    public String gotoWirteForm(@ModelAttribute @Valid FreeBoardDto freeBoardDto, BindingResult bindingResult){
-        return "freeboard/writeform";
+    public String gotoWirteForm(@ModelAttribute @Valid CatBoardDto catBoardDto, BindingResult bindingResult){
+        return "catboard/writeform";
     }
 
     @PostMapping("/WirteForm")
-    public String WriteForm(@Valid FreeBoardDto dto, BindingResult bindingResult, Model model){
+    public String WriteForm(@Valid CatBoardDto dto, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             System.out.println("사이즈 문제 있음");
-            model.addAttribute("freeboarddto", dto);
-            return "freeboard/writeform";
+            model.addAttribute("catboarddto", dto);
+            return "catboard/writeform";
         } else {
             System.out.println(dto);
-            boolean result = freeBoardService.insert(dto);
+            boolean result = catBoardService.insert(dto);
             if(result)
-                return "redirect:/FreeBoard";
+                return "redirect:/CatBoard";
         }
-        return "freeboard/writeform";
+        return "catboard/writeform";
     }
 
+//    @GetMapping("/DetailView")
+//    public String gotoDetailView(@ModelAttribute @Valid CatBoardDto catBoardDto, BindingResult bindingResult){
+//        return "catboard/detailview";
+//    }
+
     @GetMapping("/DetailView")
-    public String gotoDetailView(@ModelAttribute @Valid FreeBoardDto freeBoardDto, BindingResult bindingResult){
-        return "freeboard/detailview";
+    public String DetailView(int idx, Model model){
+        Optional<CatBoardDto> boardDtoList = catBoardService.detailByIdx(idx);
+        model.addAttribute("detailByIdx", boardDtoList.get());
+        return "catboard/detailview";
     }
+
 
 }

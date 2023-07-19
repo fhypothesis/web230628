@@ -4,14 +4,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default_layout}">
 <head>
-  <title>Free Board</title>
+  <title>Cat Board</title>
 </head>
 <th:block layout:fragment="css"></th:block>
 <th:block layout:fragment="script"></th:block>
 
 <th:block layout:fragment="content">
   <div class="container">
-    <h1>Free Board</h1>
+    <h1>Cat Board</h1>
     <table class="table">
       <thead>
       <tr>
@@ -22,17 +22,17 @@
       </tr>
       </thead>
       <tbody>
-        <tr th:each="freeboarddto :${list}">
-          <td th:text="${freeboarddto.idx}"></td>
+        <tr th:each="catboarddto :${list}">
+          <td th:text="${catboarddto.idx}"></td>
           <td>
-            <a th:href="@{/FreeBoard/DetailView(idx=${freeboarddto.idx})}" th:text="${freeboarddto.title}"></a>
+            <a th:href="@{/CatBoard/DetailView(idx=${catboarddto.idx})}" th:text="${catboarddto.title}"></a>
           </td>
-          <td th:text="${freeboarddto.name}"></td>
-          <td th:text="${#temporals.format(freeboarddto.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+          <td th:text="${catboarddto.name}"></td>
+          <td th:text="${#temporals.format(catboarddto.createDate, 'yyyy-MM-dd HH:mm')}"></td>
         </tr>
       </tbody>
     </table>
-    <a th:href="@{/FreeBoard/WirteForm}" class="btn btn-primary">글쓰기</a>
+    <a th:href="@{/CatBoard/WirteForm}" class="btn btn-primary">글쓰기</a>
   </div>
 </th:block>
 </html>
