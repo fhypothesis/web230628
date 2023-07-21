@@ -2,11 +2,14 @@ package com.example.kb3.controller;
 
 import com.example.kb3.dto.CatBoardDto;
 import com.example.kb3.dto.FreeBoardDto;
+import com.example.kb3.entity.CatBoard;
+import com.example.kb3.entity.FreeBoard;
 import com.example.kb3.repository.CatBoardRepository;
 import com.example.kb3.survice.CatBoardService;
 import com.example.kb3.survice.FreeBoardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -15,8 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/CatBoard")
@@ -33,9 +36,25 @@ public class CatBoardController {
             size = 5,
             sort = "idx",
             direction = Sort.Direction.DESC,
-            page = 0 ) Pageable pageable) {
-        List<CatBoardDto> list = catBoardService.list(pageable);
-        model.addAttribute("list", list);
+            page = 0 ) Pageable pageable,
+    @RequestParam(required = false, defaultValue = "0") int page) {
+
+        Page<CatBoard> pagelist = catBoardService.list(pageable);
+
+        // 총 행 개수
+        System.out.println(pagelist.getTotalElements());
+        // 총 페이지 개수
+        System.out.println(pagelist.getTotalPages());
+        List<CatBoardDto> dtolist = new ArrayList<>();
+        for(CatBoard cb :pagelist) {
+            CatBoardDto dto = CatBoardDto.of(cb);
+            dtolist.add(dto);
+        }
+
+        model.addAttribute("curPage", page+1);
+        model.addAttribute("totalElements", pagelist.getTotalElements());
+        model.addAttribute("totalPages", pagelist.getTotalPages());
+        model.addAttribute("list", pagelist);
         return "catboard/index";
     }
 

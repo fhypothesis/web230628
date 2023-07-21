@@ -11,7 +11,7 @@
 <th:block layout:fragment="script"></th:block>
 
 <th:block layout:fragment="content">
-  <div class="container-fo">
+  <div class="container">
     <div style="overflow:hidden; height:500px;">
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
@@ -38,42 +38,58 @@
       </div><!--    캐로셀 div-->
     </div><!--        container-->
 
-    <h1>Cat meeting!</h1>
-    <div class="row">
-      <div class="col-1"></div>
-      <div class="col-10 d-flex">
-        <div class="card m-3" style="width: 18rem;">
-          <img th:src="@{images/hello_01.jpg}" class="card-img-top" alt="cat image">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-              the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-        <div class="card m-3" style="width: 18rem;">
-          <img th:src="@{images/hello_03.png}" class="card-img-top" alt="cat image">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-              the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-        <div class="card m-3" style="width: 18rem;">
-          <img th:src="@{images/hello_04.jpg}" class="card-img-top" alt="cat image">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-              the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
+    <div class="row m-5">
 
-      </div><!--            col-10-->
-      <div class="col-1"></div>
+      <div class="col">
+        <div class="card border-light" style="width: 18rem;">
+          <div class="card-body me-1">
+            <h3 class="card-title fw-bold">Card title</h3>
+            <!--            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+              leap into electronic typesetting, remaining essentially unchanged.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div><!--        card 1-->
+      </div>
+
+      <div class="col">
+        <div class="card border-light" style="width: 18rem;">
+          <div class="card-body me-1">
+            <h3 class="card-title fw-bold">Card title</h3>
+            <!--            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+              leap into electronic typesetting, remaining essentially unchanged.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div><!--        card 1-->
+      </div>
+
+      <div class="col">
+        <div class="card border-light" style="width: 18rem;">
+          <div class="card-body me-1">
+            <h3 class="card-title fw-bold">Card title</h3>
+            <!--            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+            <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+              leap into electronic typesetting, remaining essentially unchanged.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div><!--        card 1-->
+      </div>
+
+      </div>
+
 
     </div>
-  </div>
+
+  </div><!--  container-fo-->
 </th:block>
 </html>

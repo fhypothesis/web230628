@@ -18,16 +18,10 @@ public class CatBoardService {
 
     @Autowired
     CatBoardRepository catBoardRepository;
-    public List<CatBoardDto> list(Pageable pageable) {
-        Page<CatBoard> pagelist = catBoardRepository.findAll(pageable);
-        List<CatBoardDto> dtolist = new ArrayList<>();
-        for(CatBoard cb :pagelist){
-            CatBoardDto dto = CatBoardDto.of(cb);
-            dtolist.add(dto);
-        }
 
-        System.out.println("dtolist = " + dtolist);
-        return dtolist;
+    public Page<CatBoard> list(Pageable pageable) {
+        Page<CatBoard> pagelist = catBoardRepository.findAll(pageable);
+        return pagelist;
     }
 
     public boolean insert(CatBoardDto dto) {
